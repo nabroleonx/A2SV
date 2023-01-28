@@ -1,17 +1,16 @@
 class Solution:
     def largestNumber(self, nums: List[int]) -> str:
         nums = list(map(str, nums))
-        cur_max = ""
-        res = ""
+        res = []
         while nums:
+            cur_sum = ''
             for i in nums:
-                if not cur_max:
-                    cur_max=i
+                if not cur_sum:
+                    cur_sum = i
                 else:
-                    if i+cur_max > cur_max+i:
-                        cur_max = i
-            res+=cur_max
-            nums.remove(cur_max)
-            cur_max=""
-        return str(int(res))
-    
+                    if i + cur_sum > cur_sum + i:
+                        cur_sum = i
+            res.append(cur_sum)
+            nums.remove(cur_sum)
+        
+        return str(int(''.join(res)))
