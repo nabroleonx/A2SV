@@ -1,15 +1,18 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
-        num_subsets = 2**len(nums)
+        nums.sort()
+        
         res = []
         
-        for i in range(num_subsets):
-            subset = []
+        def backtrack(res, curr, start):
+            res.append(curr.copy())
             
-            for j in nums:
-                if i % 2 == 1:
-                    subset.append(j)
-                i = i // 2
-            res.append(subset)
+            for i in range(start, len(nums)):
+                # print(f'cur: {curr}, start: {start}, res: {res}')
+                curr.append(nums[i])
+                backtrack(res, curr, i+1)
+                curr.pop()
+        
+        backtrack(res, [], 0)
         
         return res
