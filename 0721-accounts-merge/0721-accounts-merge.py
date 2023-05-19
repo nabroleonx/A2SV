@@ -1,7 +1,7 @@
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
-        adj_list = defaultdict(list)
         n = len(accounts)
+        adj_list = defaultdict(list)
 
         for i in range(n):
             for email in accounts[i][1:]:
@@ -10,24 +10,19 @@ class Solution:
         visited = set()
         res = []
 
-        def dfs(i, merged_emails):
-            if i in visited:
-                return
+        for email in adj_list.keys():
+            if email not in visited:
+                merged_emails = []
+                stack = [email]
 
-            visited.add(i)
+                while stack:
+                    curr_email = stack.pop()
+                    if curr_email not in visited:
+                        visited.add(curr_email)
+                        for i in adj_list[curr_email]:
+                            merged_emails.extend(accounts[i][1:])
+                            stack.extend(accounts[i][1:])
 
-            for email in accounts[i][1:]:
-                merged_emails.add(email)
-
-                for j in adj_list[email]:
-                    dfs(j, merged_emails)
-
-        for i in range(n):
-            if i not in visited:
-                merged_emails = set()
-                dfs(i, merged_emails)
-
-                if merged_emails:
-                    res.append([accounts[i][0]] + sorted(list(merged_emails)))
+                res.append([accounts[i][0]] + sorted(set(merged_emails)))
 
         return res
