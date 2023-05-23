@@ -8,18 +8,19 @@ class Solution:
         
         
         visited = set()
+        queue = deque([source])
         
-        def dfs(i):
-            if i == destination:
-                return True
+        
+        while queue:
+            cur = queue.popleft()
             
-            if i not in visited:
-                visited.add(i)
+            if cur == destination:
+                    return True
+            
+            for i in adjecency_list[cur]:
+                if i not in visited:
+                    visited.add(i)
+                    queue.append(i)
                 
-                for j in adjecency_list[i]:
-                    if dfs(j):
-                        return True
-            
-            return False
+        return False
         
-        return dfs(source)
