@@ -1,6 +1,16 @@
 class Solution:
     def fib(self, n: int) -> int:
-        if n==0 or n==1:
-            return n
-        else:
-            return self.fib(n-1) + self.fib(n-2)
+        cache = {}
+        
+        def fibonnaci(x):
+            if x in cache:
+                return cache[x]
+            else:
+                if x==0 or x==1:
+                    return x
+                else:
+                    fib_x = fibonnaci(x-1) + fibonnaci(x-2)
+                    cache[x] = fib_x
+                    return fibonnaci(x)
+            
+        return fibonnaci(n)
