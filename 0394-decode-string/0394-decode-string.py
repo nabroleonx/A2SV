@@ -1,24 +1,26 @@
 class Solution:
-    def decodeString(self, s: str) -> str:
-        i = 0
-        n = 0
-        stack = [""]
-        
-        while i < len(s):
-            if s[i].isdigit():
-                n = n * 10 + int(s[i])
-            elif s[i] == "[":
-                stack.append(n)
-                n = 0
-                stack.append("")
-            elif s[i] == "]":
-                es = stack.pop()
-                rep = stack.pop()
-                es2 = stack.pop()
-                
-                stack.append(es2 + es * rep)
+    def decodeString(self, s: str) -> str:        
+        stack = []
+
+        for i in s:
+            if i != ']':
+                stack.append(i)
             else:
-                stack[-1] += s[i]
+                temp = []
+                while stack and stack[-1] != "[":
+                    x = stack.pop()
+                    temp.append(x)
                 
-            i += 1           
-        return "".join(stack)
+                if stack[-1] == '[':
+                    stack.pop()
+                    
+                    c = 0
+                    i = 0
+                    while stack and stack[-1] in '0123456789':
+                        d = int(stack.pop())
+                        c += d*10**i
+                        i += 1
+
+                    stack.append(''.join(reversed(temp))*c)
+
+        return ''.join(stack)
